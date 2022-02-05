@@ -132,7 +132,8 @@
     "display_name": "&eEnter in the chat the new custom name. (support color code)",
     "enter_item_id": "&eEnter in the chat the new unique id of your item.",
     "parsing_lore": "&eEnter in the chat the new line of the lore you want to add.",
-    "no_more_lore": "&cThere's no lore line to remove.",
+    "parsing_enchantments": "&eEnter in the chat the enchant formatted as 'ENCHANT:LEVEL' you want to add. Use &6/ic list enchantments&e to get a lit of them.",
+    "no_more_value": "&cThere's no more value to remove.",
     "property_require_format": "  &6→ &e%1",
     "enter_color": [
       "&eEnter in the chat the new color of your potion.",

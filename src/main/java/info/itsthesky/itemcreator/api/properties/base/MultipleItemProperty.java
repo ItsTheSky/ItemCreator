@@ -24,6 +24,8 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 
 	public abstract List<String> formatGUI(List<T> values);
 
+	public abstract String getParsingKey();
+
 	@Override
 	public List<T> getValue(@NotNull Config itemFile) {
 		return itemFile.get(getId(), new ArrayList<>())
@@ -37,7 +39,7 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 		final Player player = (Player) e.getWhoClicked();
 		if (e.getClick().equals(ClickType.RIGHT)) {
 			if (current.isEmpty()) {
-				player.sendMessage(LangLoader.get().format("messages.no_more_lore"));
+				player.sendMessage(LangLoader.get().format("messages.no_more_value"));
 				new EditorGUI(item, true).open(player);
 				return;
 			}
@@ -49,7 +51,7 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 			return;
 		}
 		player.closeInventory();
-		player.sendMessage(LangLoader.get().format("messages.parsing_lore"));
+		player.sendMessage(LangLoader.get().format("messages.parsing_" + getParsingKey()));
 		new ChatWaiter(ev -> ev.getPlayer().equals(player),
 				ev -> {
 					final T parsed = parseSingle(ev.getMessage(), ev.getPlayer());

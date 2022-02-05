@@ -83,4 +83,9 @@ public class EnchantmentProperty extends MultipleItemProperty<Enchant> {
 				.map(v -> "  &6→ &e" + v.toString())
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public String getParsingKey() {
+		return "enchantments";
+	}
 }

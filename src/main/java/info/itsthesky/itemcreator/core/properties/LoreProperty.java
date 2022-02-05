@@ -56,4 +56,9 @@ public class LoreProperty extends MultipleMetaProperty<String> {
 		original.setLore(value);
 		return original;
 	}
+
+	@Override
+	public String getParsingKey() {
+		return "lore";
+	}
 }
