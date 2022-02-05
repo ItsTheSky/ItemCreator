@@ -62,6 +62,7 @@ public final class ItemCreator extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new MainListener(this), this);
 
 		getCommand("itemcreator").setExecutor(new CreatorCommand());
+		getCommand("itemcreator").setTabCompleter(new CreatorCommand());
 
 		getLogger().info("ItemCreator as been loaded!");
 	}
