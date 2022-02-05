@@ -1,0 +1,186 @@
+{
+  "true": "&aTrue",
+  "false": "&cFalse",
+  "property": {
+    "lore": {
+      "lore": [
+        "&8The custom lore of the item.",
+        "&8Support minecraft color code (using &8&)"
+      ],
+      "name": "&6Lore"
+    },
+    "material_require": "&cMaterial require: &6%1",
+    "general_multiple_lore": [
+      "&1",
+      "&7%1",
+      "&7Current values:",
+      "%2"
+    ],
+    "custom_type": {
+      "lore": [
+        "&8The custom type shown under the item's name."
+      ],
+      "name": "&6Custom Type"
+    },
+    "cant_craft": {
+      "lore": [
+        "&8If this is true, the custom item will",
+        "&8not be usable in crafting table"
+      ],
+      "name": "&6Can't Craft"
+    },
+    "base64": {
+      "lore": [
+        "&8The Base64 value of this player head,",
+        "&8representing its minecraft texture."
+      ],
+      "name": "&6Base64 Texture"
+    },
+    "enchantments": {
+      "lore": [
+        "&8Custom enchantment to apply to this item.",
+        "&8It must be in the format '&7ENCHANT:LEVEL&8'.",
+        "&8use &7/ic list enchantments&8 to get a full list of enchants."
+      ],
+      "name": "&6Enchantments"
+    },
+    "clear_info": "&6Use the &4drop &6key to reset.",
+    "hide_effects": {
+      "lore": [
+        "&8Hide the effect in the item's lore"
+      ],
+      "name": "&6Hide Potion Effect (Flag)"
+    },
+    "general_lore": [
+      "&1",
+      "&7Click here to change the value.",
+      "&7Current value: &6%1"
+    ],
+    "hide_enchants": {
+      "lore": [
+        "&8Hide the enchant present on the item."
+      ],
+      "name": "&6Hide Enchant (Flag)"
+    },
+    "material": {
+      "lore": [
+        "&8The item's material to set to.",
+        "&8Everything is accepted except AIR / CAVE_AIR."
+      ],
+      "name": "&6Material"
+    },
+    "property_require": "&cThis property require: %1",
+    "cant_enchant": {
+      "lore": [
+        "&8If this is true, the custom item will",
+        "&8not be usable in enchanting table."
+      ],
+      "name": "&6Can't Enchant"
+    },
+    "name": {
+      "lore": [
+        "&8The custom name of the item.",
+        "&8Support minecraft color code (using &8&)"
+      ],
+      "name": "&6Display Name"
+    },
+    "hide_unbreakable": {
+      "lore": [
+        "&8Hide the '&9Unbreakable&8' state in the item's lore."
+      ],
+      "name": "&6Hide Unbreakable (Flag)"
+    },
+    "unbreakable": {
+      "lore": [
+        "&8Either this item should be marked as unbreakable,",
+        "&8so if this item has durability lost or not."
+      ],
+      "name": "&6Unbreakable"
+    },
+    "ic_tag": {
+      "lore": [
+        "&8Enable or not the custom ItemCreator",
+        "&8NBT tag in the custom item. Require for",
+        "&8Custom interaction with the object."
+      ],
+      "name": "&6ItemCreator Tag"
+    },
+    "potion_color": {
+      "lore": [
+        "&8Change the potion color using both way:",
+        "&8  - Using the color name (ex: red, lime, orange, etc..)",
+        "&8  - Using RGB format (ex: '50, 30, 40', '255, 255, 255' for white)"
+      ],
+      "name": "&6Potion Color"
+    },
+    "rarity": {
+      "lore": [
+        "&8The custom rarity shown at the end",
+        "&8of the actual lore."
+      ],
+      "name": "&6Rarity"
+    }
+  },
+  "messages": {
+    "item_created": "&aThe custom item has been created!",
+    "custom_type": "&eEnter in the chat the new custom type of this item",
+    "wrong_enchant": "&cWrong enchantment / level format.",
+    "wrong_color": "&cUnknown color. It can either be its name (red, blue, etc..) or under 'RED, GREEN, BLUE' such as '255, 255, 255' for white.",
+    "base64": "&eEnter in the chat the Base64 value for this head. These value can be found on website like &6https://minecraft-heads.com/ &eor using &6Head Database&e.",
+    "property_require_info": "&cSome requirement are not here while changing this property:",
+    "parsing_material": "&eEnter, in the chat, the new material you want this item have.",
+    "display_name": "&eEnter in the chat the new custom name. (support color code)",
+    "enter_item_id": "&eEnter in the chat the new unique id of your item.",
+    "parsing_lore": "&eEnter in the chat the new line of the lore you want to add.",
+    "no_more_lore": "&cThere's no lore line to remove.",
+    "property_require_format": "  &6→ &e%1",
+    "enter_color": [
+      "&eEnter in the chat the new color of your potion.",
+      "&eYou can input two type of color:",
+      "  &6→ &eUsing the color name (ex: red, blue, lime, orange)",
+      "  &6→ &eUsing RGB format (ex: '255, 255, 255' for white)"
+    ],
+    "clearing_not_allowed": "&cYou cannot clear this property.",
+    "item_already_exist": "&cAn item with that id already exist.",
+    "success": "&aThis property has been changed!",
+    "wrong_material": "&cUnknown material.",
+    "rarity": "&eEnter in the chat the new rarity of your item."
+  },
+  "gui": {
+    "title": {
+      "editor": "&6Item Editor &7(%1)",
+      "list": "&6Custom Items &7(%1)"
+    },
+    "items": {
+      "general_lore": [
+        "&1",
+        "&9Right Click&b to get this item.",
+        "&9Left Click&b to edit this item",
+        "&4Drop&c to DELETE this item."
+      ],
+      "give_info": [
+        "&1",
+        "&7Click here to give you the Custom Item;",
+        "&7You can get the item using the following command:",
+        "&1",
+        "&f/ic get %1"
+      ],
+      "back": "&cBack",
+      "create": {
+        "lore": [
+          "&7Create a new custom item specifing",
+          "&7the unique id for it."
+        ],
+        "name": "&2Create"
+      },
+      "list_info": {
+        "lore": [
+          "&7This is where you can edit a",
+          "&7specific custom item that has",
+          "&7been already created."
+        ],
+        "name": "&eAre you lost?"
+      }
+    }
+  }
+}

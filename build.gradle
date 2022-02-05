@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'info.itsthesky'
+version = '2.0'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://jitpack.io' }
+    maven { url = 'https://papermc.io/repo/repository/maven-public/' }
+    maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url = 'https://repo.codemc.org/repository/maven-public/' }
+    maven { url = 'https://github.com/deanveloper/SkullCreator/raw/mvn-repo/' }
+}
+
+dependencies {
+    shadow 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
+
+    implementation 'fr.mrmicky:FastInv:3.0.3'
+    implementation 'com.github.cryptomorin:XSeries:8.6.1'
+    implementation 'de.tr7zw:item-nbt-api:2.9.0-SNAPSHOT'
+    implementation 'dev.dbassett:skullcreator:3.0.1'
+    implementation 'com.github.simplix-softworks:simplixstorage:3.2.4'
+}
+
+shadowJar {
+    archiveName = 'ItemCreator.jar'
+    relocate 'fr.mrmicky.fastinv', 'info.itsthesky.libs.fastinv'
+    relocate 'com.cryptomorin.xseries', 'info.itsthesky.libs.xseries'
+    relocate 'de.tr7zw.changeme.nbtapi', 'info.itsthesky.libs.nbtapi'
+    relocate 'dev.dbassett.skullcreator', 'info.itsthesky.libs.skullcreator'
+}
+
+def targetJavaVersion = 16
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release = targetJavaVersion
+    }
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand props
+    }
+}
+
+compileJava.options.encoding = 'UTF-8'
