@@ -1,0 +1,20 @@
+lore: 
+- §7Only iron golem can spawn
+- §7from this spawner, with a limit
+- §7of 10 golem at the same time.
+custom_type: §8Mob Spawner
+cant_craft: false
+spawner_spawn_count: 10
+enchantments: []
+hide_effects: false
+enabled: false
+hide_enchants: false
+potion_effects: []
+material: SPAWNER
+cant_enchant: false
+hide_unbreakable: false
+name: §fGolem Spawner
+ic_tag: true
+unbreakable: false
+spawner_type: IRON_GOLEM
+rarity: §5§lEPIC SPAWNER

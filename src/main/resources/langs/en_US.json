@@ -2,6 +2,13 @@
   "true": "&aTrue",
   "false": "&cFalse",
   "property": {
+    "spawner_item": {
+      "lore": [
+        "&8The custom item's ID to spawn",
+        "&8using the spawner mechanics."
+      ],
+      "name": "&6Spawning Custom Item"
+    },
     "lore": {
       "lore": [
         "&8The custom lore of the item.",
@@ -9,7 +16,6 @@
       ],
       "name": "&6Lore"
     },
-    "material_require": "&cMaterial require: &6%1",
     "general_multiple_lore": [
       "&1",
       "&7%1",
@@ -22,19 +28,77 @@
       ],
       "name": "&6Custom Type"
     },
-    "cant_craft": {
-      "lore": [
-        "&8If this is true, the custom item will",
-        "&8not be usable in crafting table"
-      ],
-      "name": "&6Can't Craft"
-    },
     "base64": {
       "lore": [
         "&8The Base64 value of this player head,",
         "&8representing its minecraft texture."
       ],
       "name": "&6Base64 Texture"
+    },
+    "spawner_spawn_count": {
+      "lore": [
+        "&8The max amount of spawned mob this",
+        "&8spawner can handle."
+      ],
+      "name": "&6Spawner Max Entity"
+    },
+    "enabled": {
+      "lore": [
+        "&8Either this item is enabled or not."
+      ],
+      "name": "&6Item Enabled?"
+    },
+    "general_lore": [
+      "&1",
+      "&7Click here to change the value.",
+      "&7Current value: &6%1"
+    ],
+    "property_require": "&cThis property require: %1",
+    "skull_owner": {
+      "lore": [
+        "&8Change the player's owner of this head."
+      ],
+      "name": "&6Skull Owner"
+    },
+    "cant_enchant": {
+      "lore": [
+        "&8If this is true, the custom item will",
+        "&8not be usable in enchanting table."
+      ],
+      "name": "&6Can't Enchant"
+    },
+    "hide_unbreakable": {
+      "lore": [
+        "&8Hide the '&9Unbreakable&8' state in the item's lore."
+      ],
+      "name": "&6Hide Unbreakable (Flag)"
+    },
+    "egg_type": {
+      "lore": [
+        "&8Change the entity type of this spawn egg."
+      ],
+      "name": "&6Egg Type"
+    },
+    "unbreakable": {
+      "lore": [
+        "&8Either this item should be marked as unbreakable,",
+        "&8so if this item has durability lost or not."
+      ],
+      "name": "&6Unbreakable"
+    },
+    "custom_model_data": {
+      "lore": [
+        "&8Change the Custom Model Data value of this item."
+      ],
+      "name": "&6Custom Model Data"
+    },
+    "material_require": "&cMaterial require: &6%1",
+    "cant_craft": {
+      "lore": [
+        "&8If this is true, the custom item will",
+        "&8not be usable in crafting table"
+      ],
+      "name": "&6Can't Craft"
     },
     "enchantments": {
       "lore": [
@@ -51,16 +115,18 @@
       ],
       "name": "&6Hide Potion Effect (Flag)"
     },
-    "general_lore": [
-      "&1",
-      "&7Click here to change the value.",
-      "&7Current value: &6%1"
-    ],
     "hide_enchants": {
       "lore": [
         "&8Hide the enchant present on the item."
       ],
       "name": "&6Hide Enchant (Flag)"
+    },
+    "potion_effects": {
+      "lore": [
+        "&8Custom potion effect that this potion",
+        "&8will give when used (drank, threw, etc...)"
+      ],
+      "name": "&6Potion Effects"
     },
     "material": {
       "lore": [
@@ -69,13 +135,13 @@
       ],
       "name": "&6Material"
     },
-    "property_require": "&cThis property require: %1",
-    "cant_enchant": {
+    "leather_color": {
       "lore": [
-        "&8If this is true, the custom item will",
-        "&8not be usable in enchanting table."
+        "&8Change the leather color using both way:",
+        "&8  - Using the color name (ex: red, lime, orange, etc..)",
+        "&8  - Using RGB format (ex: '50, 30, 40', '255, 255, 255' for white)"
       ],
-      "name": "&6Can't Enchant"
+      "name": "&6Leather Color"
     },
     "name": {
       "lore": [
@@ -83,19 +149,6 @@
         "&8Support minecraft color code (using &8&)"
       ],
       "name": "&6Display Name"
-    },
-    "hide_unbreakable": {
-      "lore": [
-        "&8Hide the '&9Unbreakable&8' state in the item's lore."
-      ],
-      "name": "&6Hide Unbreakable (Flag)"
-    },
-    "unbreakable": {
-      "lore": [
-        "&8Either this item should be marked as unbreakable,",
-        "&8so if this item has durability lost or not."
-      ],
-      "name": "&6Unbreakable"
     },
     "ic_tag": {
       "lore": [
@@ -113,6 +166,13 @@
       ],
       "name": "&6Potion Color"
     },
+    "spawner_type": {
+      "lore": [
+        "&8The entity mob that this spawner will spawn",
+        "&8once it has been placed."
+      ],
+      "name": "&6Mob Type"
+    },
     "rarity": {
       "lore": [
         "&8The custom rarity shown at the end",
@@ -122,28 +182,37 @@
     }
   },
   "messages": {
+    "parsing_enchantments": "&eEnter in the chat the enchant formatted as 'ENCHANT:LEVEL' you want to add. Use &6/ic list enchantments&e to get a lit of them.",
+    "no_more_value": "&cThere's no more value to remove.",
     "item_created": "&aThe custom item has been created!",
     "custom_type": "&eEnter in the chat the new custom type of this item",
     "wrong_enchant": "&cWrong enchantment / level format.",
     "wrong_color": "&cUnknown color. It can either be its name (red, blue, etc..) or under 'RED, GREEN, BLUE' such as '255, 255, 255' for white.",
     "base64": "&eEnter in the chat the Base64 value for this head. These value can be found on website like &6https://minecraft-heads.com/ &eor using &6Head Database&e.",
     "property_require_info": "&cSome requirement are not here while changing this property:",
-    "parsing_material": "&eEnter, in the chat, the new material you want this item have.",
-    "display_name": "&eEnter in the chat the new custom name. (support color code)",
-    "enter_item_id": "&eEnter in the chat the new unique id of your item.",
-    "parsing_lore": "&eEnter in the chat the new line of the lore you want to add.",
-    "parsing_enchantments": "&eEnter in the chat the enchant formatted as 'ENCHANT:LEVEL' you want to add. Use &6/ic list enchantments&e to get a lit of them.",
-    "no_more_value": "&cThere's no more value to remove.",
-    "property_require_format": "  &6→ &e%1",
     "enter_color": [
-      "&eEnter in the chat the new color of your potion.",
+      "&eEnter in the chat the new color.",
       "&eYou can input two type of color:",
       "  &6→ &eUsing the color name (ex: red, blue, lime, orange)",
       "  &6→ &eUsing RGB format (ex: '255, 255, 255' for white)"
     ],
     "clearing_not_allowed": "&cYou cannot clear this property.",
+    "skull_owner": "&eEnter in the chat the owner's name.",
+    "parsing_number": "&eEnter in the chat the desired integer.",
+    "wrong_number": "&cWrong number format.",
+    "wrong_potion_effect": "&cThe potion effect format is wrong, it must follow '&4EFFECT DURATION AMPLIFIER&c' format.",
+    "wrong_entity_type": "&cWrong entity type! Use &4/ic list entities&c to get a list of them.",
+    "parsing_potion_effects": "&eEnter in the chat the potion effect, followed by the duration and the amplifier ('&6EFFECT DURATION AMPLIFIER&e')",
+    "custom_item": "&eEnter in the chat the custom item's ID.",
+    "parsing_material": "&eEnter, in the chat, the new material you want this item have.",
+    "display_name": "&eEnter in the chat the new custom name. (support color code)",
+    "enter_item_id": "&eEnter in the chat the new unique id of your item.",
+    "parsing_lore": "&eEnter in the chat the new line of the lore you want to add.",
+    "property_require_format": "  &6→ &e%1",
     "item_already_exist": "&cAn item with that id already exist.",
+    "entity_type": "&eEnter in the chat the entity type. Use &6/ic list entities&e to get a list of them.",
     "success": "&aThis property has been changed!",
+    "parsing_custom_model_data": "&eEnter in the chat the new Custom Model Data integer.",
     "wrong_material": "&cUnknown material.",
     "rarity": "&eEnter in the chat the new rarity of your item."
   },

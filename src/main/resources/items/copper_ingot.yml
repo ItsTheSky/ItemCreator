@@ -1,0 +1,21 @@
+lore: 
+- §7This is a compressed copper
+- §7element that can be used in more
+- §7complicated crafting recipes.
+custom_type: §8Advanced Material
+cant_craft: false
+base64: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRiYzhkMGU0OTEyYjhmNzE5MGIzNWEyNGIzNjZiOWIxZjI3NzJiNTE5OGViNjc5MGYwOGZmNzY3N2RkZTUxZCJ9fX0=
+spawner_spawn_count: 4
+enchantments: []
+hide_effects: false
+enabled: false
+hide_enchants: false
+potion_effects: []
+material: PLAYER_HEAD
+cant_enchant: false
+hide_unbreakable: false
+name: §6Copper Ingot
+ic_tag: false
+unbreakable: false
+spawner_type: PIG
+rarity: §9§lRARE ITEM

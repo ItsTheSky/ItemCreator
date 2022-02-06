@@ -1,0 +1,18 @@
+lore: 
+- §7This epic potion can kill anything,
+- §7even creative player >:D
+custom_type: §8Admin Potion
+cant_craft: false
+enchantments: []
+hide_effects: true
+enabled: false
+hide_enchants: false
+potion_effects: 
+- HEAL 5 125
+material: SPLASH_POTION
+cant_enchant: false
+hide_unbreakable: false
+name: §c§kX §4§nKiller Potion§r §c§kX
+ic_tag: false
+unbreakable: false
+rarity: §6§lLEGENDARY ITEM

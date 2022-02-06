@@ -1,0 +1,22 @@
+lore: 
+- §7This helmet is the most lazy item
+- §7ever, damaging enemies by doing nothing!
+custom_type: §8Resources Armor
+cant_craft: false
+spawner_spawn_count: 4
+enchantments: 
+- DURABILITY:10
+- THORNS:10
+hide_effects: false
+enabled: false
+hide_enchants: true
+potion_effects: []
+material: LEATHER_HELMET
+leather_color: 0, 128, 0
+cant_enchant: false
+hide_unbreakable: false
+name: §2Cactus Helmet
+ic_tag: false
+unbreakable: false
+spawner_type: PIG
+rarity: §a§lUNCOMMON ARMOR
