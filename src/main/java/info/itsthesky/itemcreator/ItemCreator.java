@@ -3,13 +3,20 @@ package info.itsthesky.itemcreator;
 import de.leonhard.storage.Config;
 import fr.mrmicky.fastinv.FastInvManager;
 import info.itsthesky.itemcreator.api.ItemCreatorAPI;
-import info.itsthesky.itemcreator.core.ItemCreatorAPIImpl;
 import info.itsthesky.itemcreator.api.properties.base.ItemProperty;
 import info.itsthesky.itemcreator.core.CreatorCommand;
+import info.itsthesky.itemcreator.core.ItemCreatorAPIImpl;
 import info.itsthesky.itemcreator.core.MainListener;
 import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.core.properties.*;
-import info.itsthesky.itemcreator.core.properties.flags.*;
+import info.itsthesky.itemcreator.core.properties.base.*;
+import info.itsthesky.itemcreator.core.properties.events.CantCraftProperty;
+import info.itsthesky.itemcreator.core.properties.events.CantEnchantProperty;
+import info.itsthesky.itemcreator.core.properties.flags.HideEffectsProperty;
+import info.itsthesky.itemcreator.core.properties.flags.HideEnchantProperty;
+import info.itsthesky.itemcreator.core.properties.flags.HideUnbreakableProperty;
+import info.itsthesky.itemcreator.core.properties.spawners.SpawnerSpawnCountProperty;
+import info.itsthesky.itemcreator.core.properties.spawners.SpawnerTypeProperty;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,15 +48,24 @@ public final class ItemCreator extends JavaPlugin {
 
 		getLogger().info("Registering Properties ...");
 		registeredProperties = new HashMap<>();
+		api.registerProperty(new ItemEnabled());
 		api.registerProperty(new MaterialProperty());
 		api.registerProperty(new NameProperty());
 		api.registerProperty(new LoreProperty());
 		api.registerProperty(new ICTagProperty());
 		api.registerProperty(new TypeProperty());
 		api.registerProperty(new PotionColorProperty());
+		api.registerProperty(new ArmorColorProperty());
 		api.registerProperty(new EnchantmentProperty());
 		api.registerProperty(new RarityProperty());
 		api.registerProperty(new Base64Property());
+		api.registerProperty(new CMDProperty());
+		if (getServer().getVersion().contains("1.8"))
+			api.registerProperty(new EntityTypeProperty());
+		api.registerProperty(new OwnerProperty());
+		api.registerProperty(new SpawnerTypeProperty(this));
+		api.registerProperty(new SpawnerSpawnCountProperty(this));
+		api.registerProperty(new PotionEffectsProperty());
 
 		api.registerProperty(new CantCraftProperty());
 		api.registerProperty(new CantEnchantProperty());
