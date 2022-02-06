@@ -1,4 +1,4 @@
-package info.itsthesky.itemcreator.core.properties;
+package info.itsthesky.itemcreator.core.properties.events;
 
 import com.cryptomorin.xseries.XMaterial;
 import info.itsthesky.itemcreator.api.properties.simple.SimpleNBTStateProperty;

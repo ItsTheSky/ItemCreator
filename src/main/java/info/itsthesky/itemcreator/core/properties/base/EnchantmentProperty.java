@@ -1,4 +1,4 @@
-package info.itsthesky.itemcreator.core.properties;
+package info.itsthesky.itemcreator.core.properties.base;
 
 import com.cryptomorin.xseries.XMaterial;
 import de.leonhard.storage.Config;

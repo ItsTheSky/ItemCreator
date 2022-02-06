@@ -1,18 +1,16 @@
 package info.itsthesky.itemcreator.core.properties;
 
 import com.cryptomorin.xseries.XMaterial;
-import de.leonhard.storage.Config;
-import info.itsthesky.itemcreator.ItemCreator;
 import info.itsthesky.itemcreator.api.properties.simple.SimpleMetaProperty;
 import info.itsthesky.itemcreator.core.CustomItem;
 import info.itsthesky.itemcreator.core.gui.EditorGUI;
 import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.utils.ChatWaiter;
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,12 +20,12 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PotionColorProperty extends SimpleMetaProperty<Color> {
+public class ArmorColorProperty extends SimpleMetaProperty<Color> {
 	private static final Pattern rgb = Pattern.compile("(.+),( )?(.+),( )?(.+)");
 
 	@Override
 	public String getId() {
-		return "potion_color";
+		return "leather_color";
 	}
 
 	@Override
@@ -38,8 +36,8 @@ public class PotionColorProperty extends SimpleMetaProperty<Color> {
 	@Override
 	public List<String> isCompatible(CustomItem item) {
 		final List<String> errors = new ArrayList<>();
-		if (!item.getPropertyValue(XMaterial.class, "material").name().contains("POTION"))
-			errors.add(LangLoader.get().format("property.material_require", "Any Potion"));
+		if (!item.getPropertyValue(XMaterial.class, "material").name().contains("LEATHER"))
+			errors.add(LangLoader.get().format("property.material_require", "Any Leather Item"));
 		return errors;
 	}
 
@@ -72,7 +70,7 @@ public class PotionColorProperty extends SimpleMetaProperty<Color> {
 
 	@Override
 	public XMaterial getMaterial() {
-		return XMaterial.GLOWSTONE_DUST;
+		return XMaterial.LEATHER;
 	}
 
 	private Color parse(String input) {
@@ -106,7 +104,7 @@ public class PotionColorProperty extends SimpleMetaProperty<Color> {
 
 	@Override
 	public ItemMeta convert(ItemMeta original, Color value) {
-		final PotionMeta meta = (PotionMeta) original;
+		final LeatherArmorMeta meta = (LeatherArmorMeta) original;
 		meta.setColor(value);
 		return meta;
 	}
