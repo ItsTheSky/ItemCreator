@@ -9,8 +9,10 @@ import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.utils.ChatWaiter;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListGUI extends FastInv {
@@ -49,13 +51,26 @@ public class ItemListGUI extends FastInv {
 		int i = 19;
 		for (CustomItem item : items) {
 			setItem(i, new ItemBuilder(item.asItem())
-					.lore(LangLoader.get().formatsList("gui.items.general_lore"))
+					.addLore(item.isEnabled() ?
+							LangLoader.get().formatsList("gui.items.general_lore")
+							: new ArrayList<>())
 					.build(), ev -> {
-				switch (ev.getClick()) {
-					case LEFT, SHIFT_LEFT -> new EditorGUI(item, true).open((Player) ev.getWhoClicked());
-					case RIGHT, SHIFT_RIGHT -> ev.getWhoClicked().getInventory().addItem(item.asItem());
-					case CONTROL_DROP -> {
-						ItemCreator.getInstance().getApi().deleteItem(item);
+				if (item.isEnabled()) {
+					switch (ev.getClick()) {
+						case LEFT, SHIFT_LEFT -> new EditorGUI(item, true).open((Player) ev.getWhoClicked());
+						case RIGHT, SHIFT_RIGHT -> ev.getWhoClicked().getInventory().addItem(item.asItem());
+						case MIDDLE -> {
+							item.toggleEnabled();
+							new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems()).open((Player) ev.getWhoClicked());
+						}
+						case CONTROL_DROP -> {
+							ItemCreator.getInstance().getApi().deleteItem(item);
+							new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems()).open((Player) ev.getWhoClicked());
+						}
+					}
+				} else {
+					if (ev.getClick().equals(ClickType.MIDDLE)) {
+						item.toggleEnabled();
 						new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems()).open((Player) ev.getWhoClicked());
 					}
 				}

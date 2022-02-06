@@ -42,14 +42,23 @@ public class EditorGUI extends FastInv {
 			}
 		});
 
+		final ItemProperty enabledProperty = item.getProperties()
+				.stream()
+				.filter(prop -> prop.getId().equals("enabled"))
+				.findAny()
+				.orElse(null);
+		setItem(8, enabledProperty.asMenuItem(), ev -> enabledProperty.onEditorClick(ev, item));
+
 		int i = -1;
 		final List<Integer> slots =
 				Arrays.asList(19, 20, 21, 22, 23, 24, 25,
 						      28, 29, 30, 31, 32, 33, 34,
 						      37, 38, 39, 40, 41, 42, 43);
 		for (ItemProperty property : ItemCreator.getInstance().getRegisteredProperties().values()) {
+			// Skip enabled since we put this property somewhere else
+			if (property.getId().equals("enabled"))
+				continue;
 			i++;
-
 			final Object value = item.getPropertyValue(property);
 			final List<String> lores = new ArrayList<>();
 			final List<String> errors = new ArrayList<>(property.isCompatible(item));

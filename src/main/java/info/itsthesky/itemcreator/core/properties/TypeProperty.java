@@ -59,6 +59,7 @@ public class TypeProperty extends SimpleMetaProperty<String> {
 	public ItemMeta convert(ItemMeta original, String value) {
 		final List<String> lore = original.getLore() != null ?
 				original.getLore() : new ArrayList<>();
+		lore.add(0, "");
 		lore.add(0, value);
 		original.setLore(lore);
 		return original;

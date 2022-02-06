@@ -2,8 +2,11 @@ package info.itsthesky.itemcreator.core;
 
 import com.cryptomorin.xseries.XMaterial;
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import fr.mrmicky.fastinv.ItemBuilder;
+import info.itsthesky.itemcreator.ItemCreator;
 import info.itsthesky.itemcreator.api.ISnowflake;
 import info.itsthesky.itemcreator.api.properties.base.ItemProperty;
+import info.itsthesky.itemcreator.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -83,17 +86,25 @@ public class CustomItem implements ISnowflake {
 	}
 
 	public ItemStack asItem() {
-		ItemStack base = XMaterial.GRASS_BLOCK.parseItem();
-		for (ItemProperty<Object> property : properties) {
-			final Object obj = propertiesValue.get(property.getId());
-			if (obj != null && property.isCompatible(this).isEmpty()) {
-				base = property.apply(base, obj).clone();
+		if (getPropertyValue(Boolean.class, "enabled")) {
+			ItemStack base = XMaterial.GRASS_BLOCK.parseItem();
+			for (ItemProperty<Object> property : properties) {
+				final Object obj = propertiesValue.get(property.getId());
+				if (obj != null && property.isCompatible(this).isEmpty()) {
+					base = property.apply(base, obj).clone();
+				}
 			}
+			final NBTItem nbtItem = new NBTItem(base);
+			if (getPropertyValue(Boolean.class, "ic_tag"))
+				nbtItem.setString("ItemCreator.ID", getId());
+			return nbtItem.getItem();
+		} else {
+			return new ItemBuilder(XMaterial.GRAY_DYE.parseItem())
+					.name(Utils.colored("&7Item Disabled"))
+					.lore(Utils.colored("&8" + getId() + " &8is currently disabled."),
+							Utils.colored("&8Use the &7Middle Click&8 to enable it again."))
+					.build();
 		}
-		final NBTItem nbtItem = new NBTItem(base);
-		if (getPropertyValue(Boolean.class, "ic_tag"))
-			nbtItem.setString("ItemCreator.ID", getId());
-		return nbtItem.getItem();
 	}
 
 	public List<ItemProperty> getProperties() {
@@ -109,5 +120,21 @@ public class CustomItem implements ISnowflake {
 		if (property == null || getPropertyValue(property) == null)
 			return false;
 		return !propertiesValue.getOrDefault(propertyID, property.getDefaultValue()).equals(property.getDefaultValue());
+	}
+
+	public void toggleEnabled() {
+		final ItemProperty enabledProperty = getProperties()
+				.stream()
+				.filter(prop -> prop.getId().equals("enabled"))
+				.findAny()
+				.orElse(null);
+		final boolean value = !isEnabled();
+		setPropertyValue(enabledProperty, value);
+		enabledProperty.save(this, ""+value, null);
+		//ItemCreator.getInstance().getApi().getItemConfig(this).set("enabled", value);
+	}
+
+	public boolean isEnabled() {
+		return getPropertyValue(Boolean.class, "enabled");
 	}
 }

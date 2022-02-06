@@ -23,6 +23,7 @@ public class ItemCreatorAPIImpl implements ItemCreatorAPI {
 	public @NotNull CustomItem getItemFromId(String id, boolean force) {
 		if (!exits(id) && !force)
 			return null;
+		final boolean disabled = new File(instance.getDataFolder(), "items/-" + id + ".yml").exists();
 		final CustomItem item = new CustomItem(id);
 		final Config config = getItemConfig(item);
 		for (ItemProperty property : ItemCreator.getInstance().getRegisteredProperties().values()) {
@@ -66,7 +67,8 @@ public class ItemCreatorAPIImpl implements ItemCreatorAPI {
 
 	@Override
 	public boolean exits(String id) {
-		return new File(instance.getDataFolder(), "items/" + id + ".yml").exists();
+		return new File(instance.getDataFolder(), "items/" + id + ".yml").exists()
+				|| new File(instance.getDataFolder(), "items/-" + id + ".yml").exists();
 	}
 
 	private int prop = 1;
