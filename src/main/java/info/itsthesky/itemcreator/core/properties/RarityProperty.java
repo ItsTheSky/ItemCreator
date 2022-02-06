@@ -59,7 +59,8 @@ public class RarityProperty extends SimpleMetaProperty<String> {
 	public ItemMeta convert(ItemMeta original, String value) {
 		final List<String> lores =
 				original.getLore() == null ? new ArrayList<>() : original.getLore();
-		lores.add("");
+		if (!lores.isEmpty() && !lores.get(lores.size() - 1).equals(""))
+			lores.add("");
 		lores.add(Utils.colored(value));
 		original.setLore(lores);
 		return original;
