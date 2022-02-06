@@ -7,6 +7,7 @@ import info.itsthesky.itemcreator.core.CustomItem;
 import info.itsthesky.itemcreator.core.langs.LangLoader;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,11 @@ public class HideEffectsProperty extends SimpleStateProperty {
 		if (!item.getPropertyValue(XMaterial.class, "material").name().contains("POTION"))
 			errors.add(LangLoader.get().format("property.material_require", "Any Potion"));
 		return errors;
+	}
+
+	@Override
+	public @Nullable Boolean fromBukkit(ItemStack stack) {
+		return stack.getItemFlags().contains(ItemFlag.HIDE_POTION_EFFECTS);
 	}
 
 	@Override

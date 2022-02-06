@@ -27,6 +27,11 @@ public class MaterialProperty extends ItemProperty<XMaterial> {
 	}
 
 	@Override
+	public @Nullable XMaterial fromBukkit(ItemStack stack) {
+		return XMaterial.matchXMaterial(stack);
+	}
+
+	@Override
 	public XMaterial getDefaultValue() {
 		return XMaterial.GRASS_BLOCK;
 	}

@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import info.itsthesky.itemcreator.api.properties.multiple.MultipleMetaProperty;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +22,11 @@ public class LoreProperty extends MultipleMetaProperty<String> {
 	@Override
 	public List<String> getDefaultValue() {
 		return new ArrayList<>();
+	}
+
+	@Override
+	public @Nullable List<String> fromBukkit(ItemStack stack) {
+		return stack.getItemMeta().getLore();
 	}
 
 	@Override

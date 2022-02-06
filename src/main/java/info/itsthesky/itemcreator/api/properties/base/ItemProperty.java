@@ -19,6 +19,14 @@ public abstract class ItemProperty<T> implements ISnowflake {
 
 	public abstract ItemStack apply(ItemStack item, T value);
 
+	public @Nullable T fromBukkit(ItemStack stack) {
+		return null;
+	};
+
+	public boolean supportSerialization(ItemStack item) {
+		return fromBukkit(item) != null;
+	}
+
 	public String asString(T value) {
 		return value.toString();
 	}

@@ -5,6 +5,7 @@ import fr.mrmicky.fastinv.ItemBuilder;
 import info.itsthesky.itemcreator.api.properties.simple.SimpleStateProperty;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class HideUnbreakableProperty extends SimpleStateProperty {
 	@Override
@@ -15,6 +16,11 @@ public class HideUnbreakableProperty extends SimpleStateProperty {
 	@Override
 	public ItemStack apply(ItemStack item, Boolean value) {
 		return value ? new ItemBuilder(item).flags(ItemFlag.HIDE_UNBREAKABLE).build() : item;
+	}
+
+	@Override
+	public @Nullable Boolean fromBukkit(ItemStack stack) {
+		return stack.getItemFlags().contains(ItemFlag.HIDE_UNBREAKABLE);
 	}
 
 	@Override

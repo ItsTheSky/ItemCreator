@@ -1,16 +1,24 @@
 package info.itsthesky.itemcreator.core;
 
 import info.itsthesky.itemcreator.ItemCreator;
+import info.itsthesky.itemcreator.api.properties.base.ItemProperty;
+import info.itsthesky.itemcreator.api.properties.base.MultipleItemProperty;
+import info.itsthesky.itemcreator.core.gui.EditorGUI;
 import info.itsthesky.itemcreator.core.gui.ItemListGUI;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class CreatorCommand implements CommandExecutor, TabCompleter {
 
@@ -40,6 +49,14 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage(Utils.colored("&cYou must provide the item's ID!"));
 					return false;
 				}
+				Player player = args.length == 2 ? ((Player) sender).getPlayer() : Bukkit
+						.getOnlinePlayers()
+						.stream()
+						.filter(pl -> pl.getName().equals(args[2]))
+						.findAny()
+						.orElse(null);
+				if (player == null)
+					player = ((Player) sender).getPlayer();
 				final String id = args[1];
 				final @Nullable CustomItem item = ItemCreator.getInstance().getApi().getItemFromId(id);
 				if (item == null) {
@@ -47,7 +64,7 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 					return false;
 				}
 				sender.sendMessage(Utils.colored("&aGive complete!"));
-				((Player) sender).getInventory().addItem(item.asItem());
+				player.getInventory().addItem(item.asItem());
 				return true;
 			}
 			case "menu" -> {
@@ -65,6 +82,57 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 				ItemCreator.getInstance().saveResource("items/killer.yml", true);
 				ItemCreator.getInstance().saveResource("items/golem_spawner.yml", true);
 				sender.sendMessage(Utils.colored("&aSuccess! Item generated in &2plugins/ItemCreator/items/&a !"));
+				return true;
+			}
+			case "convert" -> {
+				if (!(sender instanceof final Player player)) {
+					sender.sendMessage(Utils.colored("&cThis command cannot be executed in the console."));
+					return false;
+				}
+				if (args.length == 1) {
+					sender.sendMessage(Utils.colored("&cYou must specify the new custom item's ID."));
+					return false;
+				}
+				final String id = args[1];
+				if (ItemCreator.getInstance().getApi().exits(id)) {
+					sender.sendMessage(Utils.colored("&cA Custom Item with that ID already exist."));
+					return false;
+				}
+				if (player.getInventory().getItemInMainHand() == null ||
+						player.getInventory().getItemInMainHand().getType().equals(Material.AIR)) {
+					player.sendMessage(Utils.colored("&cThis item cannot be converted."));
+					return false;
+				}
+				final ItemStack stack = player.getInventory().getItemInMainHand().clone();
+				final CustomItem item = new CustomItem(id);
+				player.sendMessage(Utils.colored("&eLoading properties ..."));
+				try {
+					int i = 1;
+					int max = ItemCreator.getInstance().getRegisteredProperties().values().size();
+					for (ItemProperty property : ItemCreator.getInstance().getRegisteredProperties().values()) {
+						item.registerProperty(property);
+						final Object value = property.supportSerialization(stack)
+								? property.fromBukkit(stack)
+								: property.getDefaultValue();
+						if (value != null) {
+							if (property instanceof MultipleItemProperty)
+								((MultipleItemProperty) property).saveMultiple(item, (List) value, player);
+							else
+								property.save(item, value.toString(), player);
+							item.setPropertyValue(property, value);
+						}
+						player.sendMessage(Utils.colored(" &c→ &5[&d"+i+"&7/"+max+"&d] &6Changing &e" + property.getId() + "&6, support: &e" + property.supportSerialization(stack)
+								+ "&6, value: &e" + value));
+						i++;
+					}
+					player.sendMessage(Utils.colored("&aFinished!"));
+					new EditorGUI(item, true).open(player);
+				} catch (Exception ex) {
+					player.sendMessage(Utils.colored("&4An internal error occured while parsing your item:"),
+							Utils.colored("  &c" + ex.getMessage()));
+					ex.printStackTrace();
+					return false;
+				}
 				return true;
 			}
 			case "list" -> {
@@ -113,6 +181,7 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 				Utils.colored("&6/ic get <item id> &7- &eGet the specified custom item"),
 				Utils.colored("&6/ic menu &7- &eOpen the main ItemCreator menu"),
 				Utils.colored("&6/ic list (enchantments|potion_effects|entities) &7- &eList possible values of enumeration"),
+				Utils.colored("&6/ic convert <item id> &7- &cBETA &eConvert the item you're holding into an ItemCreator item."),
 				Utils.colored("&6/ic generate_default &7- &eGenerate the default items ItemCreator provide to see everything it can do."),
 				Utils.colored("&1")
 		);
@@ -122,7 +191,7 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
 		final List<String> completions = new ArrayList<>();
 		if (args.length == 1)
-			completions.addAll(Arrays.asList("help", "get", "menu", "list", "generate_default"));
+			completions.addAll(Arrays.asList("help", "get", "menu", "list", "generate_default", "convert"));
 		else {
 			if (args.length == 2) {
 				switch (args[0]) {
@@ -137,6 +206,15 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 						break;
 					case "list":
 						completions.addAll(Arrays.asList("enchantments", "potion_effects", "entities"));
+						break;
+				}
+			} else if (args.length == 3) {
+				switch (args[0]) {
+					case "get":
+						completions.addAll(Bukkit.getOnlinePlayers()
+								.stream()
+								.map(HumanEntity::getName)
+								.toList());
 						break;
 				}
 			}

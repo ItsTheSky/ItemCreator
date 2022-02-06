@@ -12,6 +12,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.jetbrains.annotations.Nullable;
@@ -41,6 +42,13 @@ public class PotionColorProperty extends SimpleMetaProperty<Color> {
 		if (!item.getPropertyValue(XMaterial.class, "material").name().contains("POTION"))
 			errors.add(LangLoader.get().format("property.material_require", "Any Potion"));
 		return errors;
+	}
+
+	@Override
+	public @Nullable Color fromBukkit(ItemStack stack) {
+		if (!stack.getType().name().contains("POTION"))
+			return null;
+		return ((PotionMeta) stack.getItemMeta()).getColor();
 	}
 
 	@Override
@@ -94,6 +102,15 @@ public class PotionColorProperty extends SimpleMetaProperty<Color> {
 				return null;
 			}
 		}
+	}
+
+	public boolean save(CustomItem item, String rawValue, Player player) {
+		final Config config = ItemCreator.getInstance().getApi().getItemConfig(item);
+		if (rawValue != null)
+			config.set(getId(), rawValue);
+		else
+			return false;
+		return true;
 	}
 
 	@Override

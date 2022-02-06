@@ -9,6 +9,7 @@ import info.itsthesky.itemcreator.utils.ChatWaiter;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +23,11 @@ public class NameProperty extends SimpleMetaProperty<String> {
 	@Override
 	public String getDefaultValue() {
 		return null;
+	}
+
+	@Override
+	public @Nullable String fromBukkit(ItemStack stack) {
+		return stack.getItemMeta().getDisplayName();
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import info.itsthesky.itemcreator.utils.ChatWaiter;
 import org.bukkit.Color;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -26,6 +27,13 @@ public class ArmorColorProperty extends SimpleMetaProperty<Color> {
 	@Override
 	public String getId() {
 		return "leather_color";
+	}
+
+	@Override
+	public @Nullable Color fromBukkit(ItemStack stack) {
+		if (!stack.getType().name().contains("LEATHER"))
+			return null;
+		return ((LeatherArmorMeta) stack.getItemMeta()).getColor();
 	}
 
 	@Override

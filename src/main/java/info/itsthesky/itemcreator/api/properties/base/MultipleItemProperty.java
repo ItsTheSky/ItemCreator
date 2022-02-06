@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
@@ -45,7 +44,7 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 			}
 			current.remove(current.size() - 1);
 			item.setPropertyValue(this, current);
-			save(item, current, player);
+			saveMultiple(item, current, player);
 			player.sendMessage(LangLoader.get().format("messages.success"));
 			new EditorGUI(item, true).open(player);
 			return;
@@ -58,14 +57,14 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 					if (parsed != null) {
 						current.add(parsed);
 						item.setPropertyValue(this, current);
-						save(item, current, ev.getPlayer());
+						saveMultiple(item, current, ev.getPlayer());
 						ev.getPlayer().sendMessage(LangLoader.get().format("messages.success"));
 					}
 					new EditorGUI(item, true).open(ev.getPlayer());
 				}, true, true);
 	}
 
-	public boolean save(CustomItem item, List<T> values, Player player) {
+	public boolean saveMultiple(CustomItem item, List<T> values, Player player) {
 		final Config config = ItemCreator.getInstance().getApi().getItemConfig(item);
 		final @Nullable List<T> parsed = values;
 		config.set(getId(), parsed);

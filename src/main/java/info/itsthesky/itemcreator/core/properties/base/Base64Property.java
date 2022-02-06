@@ -15,8 +15,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,21 @@ public class Base64Property extends ItemProperty<String> {
 		if (!item.getPropertyValue(XMaterial.class, "material").name().equals("PLAYER_HEAD"))
 			errors.add(LangLoader.get().format("property.material_require", "Player Head"));
 		return errors;
+	}
+
+	@Override
+	public @Nullable String fromBukkit(ItemStack stack) {
+		if (!stack.getType().equals("PLAYER_SKULL"))
+			return null;
+		final SkullMeta meta = ((SkullMeta) stack.getItemMeta());
+		final Field profileField;
+		try {
+			profileField = meta.getClass().getDeclaredField("profile");
+			profileField.setAccessible(true);
+			return (String) profileField.get(meta);
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EnchantmentProperty extends MultipleItemProperty<Enchant> {
@@ -28,6 +29,14 @@ public class EnchantmentProperty extends MultipleItemProperty<Enchant> {
 		for (Enchant enchant : value)
 			item.addUnsafeEnchantment(enchant.getEnchantment(), enchant.getLevel());
 		return item;
+	}
+
+	@Override
+	public @Nullable List<Enchant> fromBukkit(ItemStack stack) {
+		final List<Enchant> enchants = new ArrayList<>();
+		for (Map.Entry<Enchantment, Integer> entry : stack.getEnchantments().entrySet())
+			enchants.add(new Enchant(entry.getKey(), entry.getValue()));
+		return enchants;
 	}
 
 	@Override
@@ -67,7 +76,7 @@ public class EnchantmentProperty extends MultipleItemProperty<Enchant> {
 	}
 
 	@Override
-	public boolean save(CustomItem item, List<Enchant> values, Player player) {
+	public boolean saveMultiple(CustomItem item, List<Enchant> values, Player player) {
 		final Config config = ItemCreator.getInstance().getApi().getItemConfig(item);
 		config.set(getId(), values
 				.stream()

@@ -9,6 +9,7 @@ import info.itsthesky.itemcreator.utils.ChatWaiter;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +26,13 @@ public class OwnerProperty extends SimpleMetaProperty<String> {
 	@Override
 	public boolean allowClearing() {
 		return true;
+	}
+
+	@Override
+	public @Nullable String fromBukkit(ItemStack stack) {
+		if (!stack.getType().name().equals("PLAYER_HEAD"))
+			return null;
+		return ((SkullMeta) stack.getItemMeta()).getOwner();
 	}
 
 	@Override

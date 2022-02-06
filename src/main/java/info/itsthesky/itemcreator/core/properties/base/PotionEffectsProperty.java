@@ -8,7 +8,9 @@ import info.itsthesky.itemcreator.core.CustomItem;
 import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.utils.Potion;
 import info.itsthesky.itemcreator.utils.Utils;
+import org.bukkit.Color;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
@@ -48,7 +50,7 @@ public class PotionEffectsProperty extends MultipleMetaProperty<Potion> {
 		return XMaterial.BLAZE_ROD;
 	}
 
-	public boolean save(CustomItem item, List<Potion> values, Player player) {
+	public boolean saveMultiple(CustomItem item, List<Potion> values, Player player) {
 		final Config config = ItemCreator.getInstance().getApi().getItemConfig(item);
 		config.set(getId(), values
 				.stream()
@@ -56,6 +58,19 @@ public class PotionEffectsProperty extends MultipleMetaProperty<Potion> {
 						potion.getDuration() + " " + potion.getAmplifier())
 				.collect(Collectors.toList()));
 		return true;
+	}
+
+	@Override
+	public @Nullable List<Potion> fromBukkit(ItemStack stack) {
+		if (!stack.getType().name().contains("POTION"))
+			return null;
+		return ((PotionMeta) stack.getItemMeta())
+				.getCustomEffects()
+				.stream()
+				.map(potionEffect -> new Potion(potionEffect.getType(),
+						potionEffect.getDuration(),
+						potionEffect.getAmplifier()))
+				.collect(Collectors.toList());
 	}
 
 	@Override

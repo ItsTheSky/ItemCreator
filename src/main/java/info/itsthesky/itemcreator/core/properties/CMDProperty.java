@@ -9,6 +9,7 @@ import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.utils.ChatWaiter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,6 +17,11 @@ public class CMDProperty extends SimpleMetaProperty<Integer> {
 	@Override
 	public String getId() {
 		return "custom_model_data";
+	}
+
+	@Override
+	public @Nullable Integer fromBukkit(ItemStack stack) {
+		return stack.getItemMeta().hasCustomModelData() ? stack.getItemMeta().getCustomModelData() : null;
 	}
 
 	@Override
