@@ -49,7 +49,7 @@ public class MaterialProperty extends ItemProperty<XMaterial> {
 				save(item, rawValue, player);
 				player.sendMessage(LangLoader.get().format("messages.success"));
 			}
-			new EditorGUI(item, true).open(player);
+			new EditorGUI(item, true, player).open(player);
 		}, true, true);
 	}
 

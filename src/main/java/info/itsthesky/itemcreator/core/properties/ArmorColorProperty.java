@@ -72,7 +72,7 @@ public class ArmorColorProperty extends SimpleMetaProperty<Color> {
 				item.setPropertyValue(this, color);
 				player.sendMessage(LangLoader.get().formats("messages.success"));
 			}
-			new EditorGUI(item, true).open(player);
+			new EditorGUI(item, true, player).open(player);
 		}, true, true);
 	}
 

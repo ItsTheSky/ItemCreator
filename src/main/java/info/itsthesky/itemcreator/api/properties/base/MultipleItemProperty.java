@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 
@@ -29,7 +30,7 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 	public List<T> getValue(@NotNull Config itemFile) {
 		return itemFile.get(getId(), new ArrayList<>())
 				.stream()
-				.map(obj -> parseSingle(obj.toString(), null)).toList();
+				.map(obj -> parseSingle(obj.toString(), null)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -39,14 +40,14 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 		if (e.getClick().equals(ClickType.RIGHT)) {
 			if (current.isEmpty()) {
 				player.sendMessage(LangLoader.get().format("messages.no_more_value"));
-				new EditorGUI(item, true).open(player);
+				new EditorGUI(item, true, player).open(player);
 				return;
 			}
 			current.remove(current.size() - 1);
 			item.setPropertyValue(this, current);
 			saveMultiple(item, current, player);
 			player.sendMessage(LangLoader.get().format("messages.success"));
-			new EditorGUI(item, true).open(player);
+			new EditorGUI(item, true, player).open(player);
 			return;
 		}
 		player.closeInventory();
@@ -60,7 +61,7 @@ public abstract class MultipleItemProperty<T> extends ItemProperty<List<T>> {
 						saveMultiple(item, current, ev.getPlayer());
 						ev.getPlayer().sendMessage(LangLoader.get().format("messages.success"));
 					}
-					new EditorGUI(item, true).open(ev.getPlayer());
+					new EditorGUI(item, true, player).open(ev.getPlayer());
 				}, true, true);
 	}
 

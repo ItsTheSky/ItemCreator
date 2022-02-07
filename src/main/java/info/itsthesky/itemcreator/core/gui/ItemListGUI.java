@@ -36,7 +36,7 @@ public class ItemListGUI extends FastInv {
 				else {
 					final CustomItem item = ItemCreator.getInstance().getApi().getItemFromId(id, true);
 					player.sendMessage(LangLoader.get().format("messages.item_created"));
-					new EditorGUI(item, true).open(player);
+					new EditorGUI(item, true, player).open(player);
 					return;
 				}
 				open(player);
@@ -57,7 +57,7 @@ public class ItemListGUI extends FastInv {
 					.build(), ev -> {
 				if (item.isEnabled()) {
 					switch (ev.getClick()) {
-						case LEFT, SHIFT_LEFT -> new EditorGUI(item, true).open((Player) ev.getWhoClicked());
+						case LEFT, SHIFT_LEFT -> new EditorGUI(item, true, ((Player) ev.getWhoClicked())).open((Player) ev.getWhoClicked());
 						case RIGHT, SHIFT_RIGHT -> ev.getWhoClicked().getInventory().addItem(item.asItem());
 						case MIDDLE -> {
 							item.toggleEnabled();

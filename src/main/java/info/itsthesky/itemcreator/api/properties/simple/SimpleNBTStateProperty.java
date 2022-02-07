@@ -19,7 +19,7 @@ public abstract class SimpleNBTStateProperty extends SimpleNBTProperty<Boolean> 
 		final Boolean current = item.getPropertyValue(this);
 		item.setPropertyValue(this, Boolean.FALSE.equals(current));
 		save(item, ""+ Boolean.FALSE.equals(current), (Player) e.getWhoClicked());
-		new EditorGUI(item, true).open((Player) e.getWhoClicked());
+		new EditorGUI(item, true, (Player) e.getWhoClicked()).open((Player) e.getWhoClicked());
 		e.getWhoClicked().sendMessage(LangLoader.get().format("messages.success"));
 	}
 

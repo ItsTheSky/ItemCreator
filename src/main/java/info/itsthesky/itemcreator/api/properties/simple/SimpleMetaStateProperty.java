@@ -17,7 +17,7 @@ public abstract class SimpleMetaStateProperty extends SimpleMetaProperty<Boolean
 		final Boolean current = item.getPropertyValue(this);
 		item.setPropertyValue(this, !current);
 		save(item, ""+!current, (Player) e.getWhoClicked());
-		new EditorGUI(item, true).open((Player) e.getWhoClicked());
+		new EditorGUI(item, true, (Player) e.getWhoClicked()).open((Player) e.getWhoClicked());
 		e.getWhoClicked().sendMessage(LangLoader.get().format("messages.success"));
 	}
 

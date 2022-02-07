@@ -9,9 +9,12 @@ import info.itsthesky.itemcreator.core.ItemCreatorAPIImpl;
 import info.itsthesky.itemcreator.core.MainListener;
 import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.core.properties.*;
+import info.itsthesky.itemcreator.core.properties.attributes.AttributeProperty;
 import info.itsthesky.itemcreator.core.properties.base.*;
 import info.itsthesky.itemcreator.core.properties.events.CantCraftProperty;
 import info.itsthesky.itemcreator.core.properties.events.CantEnchantProperty;
+import info.itsthesky.itemcreator.core.properties.events.CommandsProperty;
+import info.itsthesky.itemcreator.core.properties.flags.HideAttributesProperty;
 import info.itsthesky.itemcreator.core.properties.flags.HideEffectsProperty;
 import info.itsthesky.itemcreator.core.properties.flags.HideEnchantProperty;
 import info.itsthesky.itemcreator.core.properties.flags.HideUnbreakableProperty;
@@ -66,10 +69,13 @@ public final class ItemCreator extends JavaPlugin {
 		api.registerProperty(new SpawnerTypeProperty(this));
 		api.registerProperty(new SpawnerSpawnCountProperty(this));
 		api.registerProperty(new PotionEffectsProperty());
+		api.registerProperty(new AttributeProperty());
+		api.registerProperty(new CommandsProperty(this));
 
 		api.registerProperty(new CantCraftProperty());
 		api.registerProperty(new CantEnchantProperty());
 		api.registerProperty(new UnbreakProperty());
+		api.registerProperty(new HideAttributesProperty());
 		api.registerProperty(new HideEnchantProperty());
 		api.registerProperty(new HideUnbreakableProperty());
 		api.registerProperty(new HideEffectsProperty());

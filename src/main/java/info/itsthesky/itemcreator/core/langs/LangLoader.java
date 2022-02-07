@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LangLoader {
 
@@ -44,9 +45,8 @@ public class LangLoader {
 		return Utils.colored(lang.getOrSetDefault(key, "Unknown Language Key: " + key));
 	}
 
-	public List<String> formatsList(String key, String... replacement) {
-		return List.of(formats(key))
-				.stream()
+	public List<String> formatsList(String key, Object... replacement) {
+		return Stream.of(formats(key))
 				.map(str -> {
 					int i = 1;
 					for (Object s : replacement) {

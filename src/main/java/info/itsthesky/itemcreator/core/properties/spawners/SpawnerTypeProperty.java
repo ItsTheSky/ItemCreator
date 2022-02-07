@@ -70,7 +70,7 @@ public class SpawnerTypeProperty extends SpawnerProperty<EntityType> {
 				save(item, ev.getMessage(), player);
 				player.sendMessage(LangLoader.get().format("messages.success"));
 			}
-			new EditorGUI(item, true).open(player);
+			new EditorGUI(item, true, player).open(player);
 		}, true, true);
 	}
 

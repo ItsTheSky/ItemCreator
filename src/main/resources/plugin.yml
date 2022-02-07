@@ -1,7 +1,7 @@
 name: ItemCreator
 version: '${version}'
 main: info.itsthesky.itemcreator.ItemCreator
-api-version: 1.17
+api-version: 1.13
 authors: [ ItsTheSky ]
 description: Create custom items easily using a simple in-game GUI.
 commands:

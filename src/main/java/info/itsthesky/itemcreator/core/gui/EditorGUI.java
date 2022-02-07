@@ -1,6 +1,7 @@
 package info.itsthesky.itemcreator.core.gui;
 
 import com.cryptomorin.xseries.XMaterial;
+import dev.dbassett.skullcreator.SkullCreator;
 import fr.mrmicky.fastinv.FastInv;
 import fr.mrmicky.fastinv.ItemBuilder;
 import info.itsthesky.itemcreator.ItemCreator;
@@ -8,6 +9,7 @@ import info.itsthesky.itemcreator.api.properties.base.ItemProperty;
 import info.itsthesky.itemcreator.api.properties.base.MultipleItemProperty;
 import info.itsthesky.itemcreator.core.CustomItem;
 import info.itsthesky.itemcreator.core.langs.LangLoader;
+import info.itsthesky.itemcreator.utils.Pagination;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,15 +18,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EditorGUI extends FastInv {
 
-	public EditorGUI(final CustomItem item, final boolean openedFromGUI) {
+	private static final HashMap<UUID, Integer> playersPages = new HashMap<>();
+
+	public EditorGUI(final CustomItem item, final boolean openedFromGUI, final Player player) {
 		super(9 * 6, LangLoader.get().format("gui.title.editor", item.getId()));
+		final Pagination<ItemProperty> properties = new Pagination<>(22, ItemCreator.getInstance().getRegisteredProperties().values());
 		setItems(getBorders(), new ItemBuilder(XMaterial.GREEN_STAINED_GLASS_PANE.parseItem())
 				.name(Utils.colored("&1"))
 				.build());
@@ -42,6 +44,15 @@ public class EditorGUI extends FastInv {
 			}
 		});
 
+		setItem(49, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+						.name(LangLoader.get().format("gui.items.page_info.name"))
+						.lore(LangLoader.get().formatsList("gui.items.page_info.lore",
+								getPlayerPage(player) + 1,
+								properties.totalPages(),
+								properties.getPage(getPlayerPage(player)).size(),
+								ItemCreator.getInstance().getRegisteredProperties().size()))
+				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="));
+
 		final ItemProperty enabledProperty = item.getProperties()
 				.stream()
 				.filter(prop -> prop.getId().equals("enabled"))
@@ -49,19 +60,41 @@ public class EditorGUI extends FastInv {
 				.orElse(null);
 		setItem(8, enabledProperty.asMenuItem(), ev -> enabledProperty.onEditorClick(ev, item));
 
+		setItem(45, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+				.name(LangLoader.get().format("gui.items.previous"))
+				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWFlNzg0NTFiZjI2Y2Y0OWZkNWY1NGNkOGYyYjM3Y2QyNWM5MmU1Y2E3NjI5OGIzNjM0Y2I1NDFlOWFkODkifX19"), ev -> {
+			if (getPlayerPage(player) <= 0)
+				player.sendMessage(LangLoader.get().format("messages.first_page"));
+			else {
+				playersPages.put(player.getUniqueId(), getPlayerPage(player) - 1);
+				new EditorGUI(item, openedFromGUI, player).open(player);
+			}
+		});
+
+		setItem(53, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+				.name(LangLoader.get().format("gui.items.next"))
+				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTE3ZjM2NjZkM2NlZGZhZTU3Nzc4Yzc4MjMwZDQ4MGM3MTlmZDVmNjVmZmEyYWQzMjU1Mzg1ZTQzM2I4NmUifX19"), ev -> {
+			if (getPlayerPage(player) + 1 >= properties.totalPages())
+				player.sendMessage(LangLoader.get().format("messages.last_page"));
+			else {
+				playersPages.put(player.getUniqueId(), getPlayerPage(player) + 1);
+				new EditorGUI(item, openedFromGUI, player).open(player);
+			}
+		});
+
 		int i = -1;
 		final List<Integer> slots =
 				Arrays.asList(19, 20, 21, 22, 23, 24, 25,
 						      28, 29, 30, 31, 32, 33, 34,
 						      37, 38, 39, 40, 41, 42, 43);
-		for (ItemProperty property : ItemCreator.getInstance().getRegisteredProperties().values()) {
+		for (ItemProperty property : properties.getPage(getPlayerPage(player))) {
 			// Skip enabled since we put this property somewhere else
 			if (property.getId().equals("enabled"))
 				continue;
 			i++;
 			final Object value = item.getPropertyValue(property);
 			final List<String> lores = new ArrayList<>();
-			final List<String> errors = new ArrayList<>(property.isCompatible(item));
+			final List errors = property.isCompatible(item);
 			final ItemBuilder builder = new ItemBuilder(property.asMenuItem())
 					.flags(ItemFlag.HIDE_ENCHANTS);
 
@@ -107,18 +140,21 @@ public class EditorGUI extends FastInv {
 							property.setInternalValue(item, property.getDefaultValue());
 							item.setPropertyValue(property, property.getDefaultValue());
 							ev.getWhoClicked().sendMessage(LangLoader.get().format("messages.success"));
-							new EditorGUI(item, openedFromGUI).open((Player) ev.getWhoClicked());
+							new EditorGUI(item, openedFromGUI, player).open((Player) ev.getWhoClicked());
 						}
 					} else
 						property.onEditorClick(ev, item);
 				} else {
 					ev.getWhoClicked().sendMessage(LangLoader.get().format("messages.property_require_info"));
-					for (String error : errors)
+					for (Object error : errors.stream().map(Object::toString).toList())
 						ev.getWhoClicked().sendMessage(LangLoader.get().format("messages.property_require_format",
-								Utils.colored(error)));
+								Utils.colored(error.toString())));
 				}
 			});
 		}
 	}
 
+	private static int getPlayerPage(Player player) {
+		return playersPages.getOrDefault(player.getUniqueId(), 0);
+	}
 }

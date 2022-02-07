@@ -26,7 +26,7 @@ public class ItemEnabled extends SimpleStateProperty {
 		if (Boolean.TRUE.equals(current))
 			new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems()).open(((Player) e.getWhoClicked()));
 		else
-			new EditorGUI(item, true).open((Player) e.getWhoClicked());
+			new EditorGUI(item, true, ((Player) e.getWhoClicked())).open((Player) e.getWhoClicked());
 	}
 
 	@Override
