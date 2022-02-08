@@ -1,4 +1,5 @@
 {
+  "lang_version": "2.2.0",
   "true": "&aTrue",
   "false": "&cFalse",
   "property": {
@@ -86,6 +87,20 @@
       ],
       "name": "&6Unbreakable"
     },
+    "commands": {
+      "lore": [
+        "&8Custom command to run when specific",
+        "&8action are applied to this item.",
+        "&8USe &7/ic list actions&8 to get a list of it."
+      ],
+      "name": "&6Commands"
+    },
+    "hide_attributes": {
+      "lore": [
+        "&8Hide the attributes of the items, if any set."
+      ],
+      "name": "&6Hide Attributes (Flag)"
+    },
     "custom_model_data": {
       "lore": [
         "&8Change the Custom Model Data value of this item."
@@ -166,6 +181,16 @@
       ],
       "name": "&6Potion Color"
     },
+    "attributes": {
+      "lore": [
+        "&8Attributes will change the way an item",
+        "&8can update player's statistics accoring to",
+        "&8the current holding slot.",
+        "&8You can select different operations to",
+        "&8make your attribute have different result."
+      ],
+      "name": "&6Attributes"
+    },
     "spawner_type": {
       "lore": [
         "&8The entity mob that this spawner will spawn",
@@ -182,6 +207,7 @@
     }
   },
   "messages": {
+    "wrong_command": "&cWrong command format!",
     "parsing_enchantments": "&eEnter in the chat the enchant formatted as 'ENCHANT:LEVEL' you want to add. Use &6/ic list enchantments&e to get a lit of them.",
     "no_more_value": "&cThere's no more value to remove.",
     "item_created": "&aThe custom item has been created!",
@@ -190,6 +216,7 @@
     "wrong_color": "&cUnknown color. It can either be its name (red, blue, etc..) or under 'RED, GREEN, BLUE' such as '255, 255, 255' for white.",
     "base64": "&eEnter in the chat the Base64 value for this head. These value can be found on website like &6https://minecraft-heads.com/ &eor using &6Head Database&e.",
     "property_require_info": "&cSome requirement are not here while changing this property:",
+    "parsing_commands": "&eEnter in the chat the &6Action &7(/ic list actions)&e followed by the &6Command &7(without the slash)\n&7Example: &8left_click_air say You left_clicked!",
     "enter_color": [
       "&eEnter in the chat the new color.",
       "&eYou can input two type of color:",
@@ -200,9 +227,11 @@
     "skull_owner": "&eEnter in the chat the owner's name.",
     "parsing_number": "&eEnter in the chat the desired integer.",
     "wrong_number": "&cWrong number format.",
+    "first_page": "&eYou are on the first page.",
     "wrong_potion_effect": "&cThe potion effect format is wrong, it must follow '&4EFFECT DURATION AMPLIFIER&c' format.",
     "wrong_entity_type": "&cWrong entity type! Use &4/ic list entities&c to get a list of them.",
     "parsing_potion_effects": "&eEnter in the chat the potion effect, followed by the duration and the amplifier ('&6EFFECT DURATION AMPLIFIER&e')",
+    "last_page": "&eThere's no more property page to show.",
     "custom_item": "&eEnter in the chat the custom item's ID.",
     "parsing_material": "&eEnter, in the chat, the new material you want this item have.",
     "display_name": "&eEnter in the chat the new custom name. (support color code)",
@@ -213,6 +242,8 @@
     "entity_type": "&eEnter in the chat the entity type. Use &6/ic list entities&e to get a list of them.",
     "success": "&aThis property has been changed!",
     "parsing_custom_model_data": "&eEnter in the chat the new Custom Model Data integer.",
+    "parsing_attributes": "&eEnter in the chat the attribute format: &6ATTRIBUTE : OPERATION : VALUE&7 : SLOT\n&eYou can check these enumerations using &6/is list <slots|attributes|operations>&e!",
+    "wrong_attribute": "&cWrong attribute format!",
     "wrong_material": "&cUnknown material.",
     "rarity": "&eEnter in the chat the new rarity of your item."
   },
@@ -226,8 +257,9 @@
         "&1",
         "&9Right Click&b to get this item.",
         "&9Left Click&b to edit this item",
-        "&4Drop&c to DELETE this item."
+        "&4Control + Drop&c to DELETE this item."
       ],
+      "next": "&eNext Page",
       "give_info": [
         "&1",
         "&7Click here to give you the Custom Item;",
@@ -235,6 +267,14 @@
         "&1",
         "&f/ic get %1"
       ],
+      "previous": "&ePrevious Page",
+      "page_info": {
+        "lore": [
+          "&9Pages &b%1 &9/ &b%2",
+          "&9Showing &b%3 &9values out of &b%4"
+        ],
+        "name": "&6Page Information:"
+      },
       "back": "&cBack",
       "create": {
         "lore": [
