@@ -75,7 +75,7 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage(Utils.colored("&cThis command cannot be executed in the console."));
 					return false;
 				}
-				new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems()).open((Player) sender);
+				new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), (Player) sender).open((Player) sender);
 				return true;
 			case "generate_default":
 				sender.sendMessage(Utils.colored("&6Generating ..."));

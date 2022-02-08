@@ -24,7 +24,7 @@ public class ItemEnabled extends SimpleStateProperty {
 		save(item, ""+ Boolean.FALSE.equals(current), (Player) e.getWhoClicked());
 		e.getWhoClicked().sendMessage(LangLoader.get().format("messages.success"));
 		if (Boolean.TRUE.equals(current))
-			new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems()).open(((Player) e.getWhoClicked()));
+			new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), (Player) e.getWhoClicked()).open(((Player) e.getWhoClicked()));
 		else
 			new EditorGUI(item, true, ((Player) e.getWhoClicked())).open((Player) e.getWhoClicked());
 	}

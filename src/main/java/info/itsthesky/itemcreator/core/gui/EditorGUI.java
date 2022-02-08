@@ -37,7 +37,7 @@ public class EditorGUI extends FastInv {
 		setItem(0, new ItemBuilder(XMaterial.ARROW.parseMaterial())
 				.name(LangLoader.get().format("gui.items.back")).build(), ev -> {
 			if (openedFromGUI) {
-				new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems())
+				new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), player)
 						.open((Player) ev.getWhoClicked());
 			} else {
 				ev.getWhoClicked().closeInventory();
@@ -45,12 +45,12 @@ public class EditorGUI extends FastInv {
 		});
 
 		setItem(49, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-						.name(LangLoader.get().format("gui.items.page_info.name"))
-						.lore(LangLoader.get().formatsList("gui.items.page_info.lore",
-								getPlayerPage(player) + 1,
-								properties.totalPages(),
-								properties.getPage(getPlayerPage(player)).size(),
-								ItemCreator.getInstance().getRegisteredProperties().size()))
+				.name(LangLoader.get().format("gui.items.page_info.name"))
+				.lore(LangLoader.get().formatsList("gui.items.page_info.lore",
+						getPlayerPage(player) + 1,
+						properties.totalPages(),
+						properties.getPage(getPlayerPage(player)).size(),
+						ItemCreator.getInstance().getRegisteredProperties().size()))
 				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="));
 
 		final ItemProperty enabledProperty = item.getProperties()
@@ -146,7 +146,7 @@ public class EditorGUI extends FastInv {
 						property.onEditorClick(ev, item);
 				} else {
 					ev.getWhoClicked().sendMessage(LangLoader.get().format("messages.property_require_info"));
-					for (Object error : errors.stream().map(Object::toString).toList())
+					for (Object error : errors.stream().map(Object::toString).toArray())
 						ev.getWhoClicked().sendMessage(LangLoader.get().format("messages.property_require_format",
 								Utils.colored(error.toString())));
 				}
