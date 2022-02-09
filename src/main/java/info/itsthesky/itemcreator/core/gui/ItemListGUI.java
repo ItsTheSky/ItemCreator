@@ -56,72 +56,79 @@ public class ItemListGUI extends FastInv {
 				.lore(LangLoader.get().formatsList("gui.items.list_info.lore"))
 				.build());
 
-		setItem(45, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-				.name(LangLoader.get().format("gui.items.previous"))
-				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWFlNzg0NTFiZjI2Y2Y0OWZkNWY1NGNkOGYyYjM3Y2QyNWM5MmU1Y2E3NjI5OGIzNjM0Y2I1NDFlOWFkODkifX19"), ev -> {
-			if (getPlayerPage(opener) <= 0)
-				opener.sendMessage(LangLoader.get().format("messages.first_page"));
-			else {
-				playersPages.put(opener.getUniqueId(), getPlayerPage(opener) - 1);
-				new ItemListGUI(items, opener).open(opener);
-			}
-		});
-
-		setItem(49, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-				.name(LangLoader.get().format("gui.items.page_info.name"))
-				.lore(LangLoader.get().formatsList("gui.items.page_info.lore",
-						getPlayerPage(opener) + 1,
-						pagination.totalPages(),
-						pagination.getPage(getPlayerPage(opener)).size(),
-						ItemCreator.getInstance().getRegisteredProperties().size()))
-				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="));
-
-
-		setItem(53, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
-				.name(LangLoader.get().format("gui.items.next"))
-				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTE3ZjM2NjZkM2NlZGZhZTU3Nzc4Yzc4MjMwZDQ4MGM3MTlmZDVmNjVmZmEyYWQzMjU1Mzg1ZTQzM2I4NmUifX19"), ev -> {
-			if (getPlayerPage(opener) + 1 >= pagination.totalPages())
-				opener.sendMessage(LangLoader.get().format("messages.last_page"));
-			else {
-				playersPages.put(opener.getUniqueId(), getPlayerPage(opener) + 1);
-				new ItemListGUI(items, opener).open(opener);
-			}
-		});
-
-		int i = 19;
-		for (CustomItem item : items) {
-			setItem(i, new ItemBuilder(item.asItem())
-					.addLore(item.isEnabled() ?
-							LangLoader.get().formatsList("gui.items.general_lore")
-							: new ArrayList<>())
-					.build(), ev -> {
-				if (item.isEnabled()) {
-					switch (ev.getClick()) {
-						case LEFT:
-						case SHIFT_LEFT:
-							new EditorGUI(item, true, ((Player) ev.getWhoClicked())).open((Player) ev.getWhoClicked());
-							break;
-						case RIGHT:
-						case SHIFT_RIGHT:
-							ev.getWhoClicked().getInventory().addItem(item.asItem());
-							break;
-						case MIDDLE:
-							item.toggleEnabled();
-							new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), opener).open((Player) ev.getWhoClicked());
-							break;
-						case CONTROL_DROP:
-							ItemCreator.getInstance().getApi().deleteItem(item);
-							new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), opener).open((Player) ev.getWhoClicked());
-							break;
-					}
-				} else {
-					if (ev.getClick().equals(ClickType.MIDDLE)) {
-						item.toggleEnabled();
-						new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), opener).open((Player) ev.getWhoClicked());
-					}
+		if (pagination.exists(0)) {
+			setItem(45, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+					.name(LangLoader.get().format("gui.items.previous"))
+					.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWFlNzg0NTFiZjI2Y2Y0OWZkNWY1NGNkOGYyYjM3Y2QyNWM5MmU1Y2E3NjI5OGIzNjM0Y2I1NDFlOWFkODkifX19"), ev -> {
+				if (getPlayerPage(opener) <= 0)
+					opener.sendMessage(LangLoader.get().format("messages.first_page"));
+				else {
+					playersPages.put(opener.getUniqueId(), getPlayerPage(opener) - 1);
+					new ItemListGUI(items, opener).open(opener);
 				}
 			});
-			i++;
+
+			setItem(49, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+					.name(LangLoader.get().format("gui.items.page_info.name"))
+					.lore(LangLoader.get().formatsList("gui.items.page_info.lore",
+							getPlayerPage(opener) + 1,
+							pagination.totalPages(),
+							pagination.getPage(getPlayerPage(opener)).size(),
+							items.size()))
+					.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="));
+
+
+			setItem(53, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+					.name(LangLoader.get().format("gui.items.next"))
+					.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTE3ZjM2NjZkM2NlZGZhZTU3Nzc4Yzc4MjMwZDQ4MGM3MTlmZDVmNjVmZmEyYWQzMjU1Mzg1ZTQzM2I4NmUifX19"), ev -> {
+				if (getPlayerPage(opener) + 1 >= pagination.totalPages())
+					opener.sendMessage(LangLoader.get().format("messages.last_page"));
+				else {
+					playersPages.put(opener.getUniqueId(), getPlayerPage(opener) + 1);
+					new ItemListGUI(items, opener).open(opener);
+				}
+			});
+
+			int i = 19;
+			for (CustomItem item : items) {
+				setItem(i, new ItemBuilder(item.asItem())
+						.addLore(item.isEnabled() ?
+								LangLoader.get().formatsList("gui.items.general_lore")
+								: new ArrayList<>())
+						.build(), ev -> {
+					if (item.isEnabled()) {
+						switch (ev.getClick()) {
+							case LEFT:
+							case SHIFT_LEFT:
+								new EditorGUI(item, true, ((Player) ev.getWhoClicked())).open((Player) ev.getWhoClicked());
+								break;
+							case RIGHT:
+							case SHIFT_RIGHT:
+								ev.getWhoClicked().getInventory().addItem(item.asItem());
+								break;
+							case MIDDLE:
+								item.toggleEnabled();
+								new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), opener).open((Player) ev.getWhoClicked());
+								break;
+							case CONTROL_DROP:
+								ItemCreator.getInstance().getApi().deleteItem(item);
+								new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), opener).open((Player) ev.getWhoClicked());
+								break;
+						}
+					} else {
+						if (ev.getClick().equals(ClickType.MIDDLE)) {
+							item.toggleEnabled();
+							new ItemListGUI(ItemCreator.getInstance().getApi().loadAllItems(), opener).open((Player) ev.getWhoClicked());
+						}
+					}
+				});
+				i++;
+			}
+		} else {
+			setItem(31, new ItemBuilder(XMaterial.BARRIER.parseItem())
+					.name(LangLoader.get().format("gui.items.no_items.name"))
+					.lore(LangLoader.get().formatsList("gui.items.no_items.lore"))
+					.build());
 		}
 	}
 
