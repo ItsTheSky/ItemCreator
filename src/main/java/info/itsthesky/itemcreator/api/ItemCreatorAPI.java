@@ -39,6 +39,15 @@ public interface ItemCreatorAPI {
 	@NotNull CustomItem getItemFromId(String id, boolean force);
 
 	/**
+	 * Create a new {@link CustomItem} with the following id.
+	 * @param id The custom item id
+	 * @return The never-null created item
+	 */
+	default @NotNull CustomItem createItem(String id) {
+		return getItemFromId(id, true);
+	}
+
+	/**
 	 * Convert a bukkit {@link ItemStack} into a {@link CustomItem}
 	 * @param item The item stack
 	 * @return
@@ -56,7 +65,7 @@ public interface ItemCreatorAPI {
 	 * @param id The custom item's id
 	 * @return True if it exists, else false
 	 */
-	boolean exits(String id);
+	boolean exists(String id);
 
 	/**
 	 * Register a new {@link ItemProperty} into {@link ItemCreator}.
