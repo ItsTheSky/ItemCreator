@@ -8,6 +8,9 @@ version = '2.2.0'
 
 repositories {
     mavenCentral()
+    mavenLocal()
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
     maven { url = 'https://jitpack.io' }
     maven { url = 'https://papermc.io/repo/repository/maven-public/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
@@ -16,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    shadow 'io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT'
+    shadow 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
 
     implementation 'fr.mrmicky:FastInv:3.0.3'
     implementation 'com.github.cryptomorin:XSeries:8.6.1'
@@ -33,7 +36,7 @@ shadowJar {
     relocate 'dev.dbassett.skullcreator', 'info.itsthesky.libs.skullcreator'
 }
 
-def targetJavaVersion = 16
+def targetJavaVersion = 11
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion

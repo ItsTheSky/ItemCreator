@@ -22,7 +22,7 @@ public class HideEnchantProperty extends SimpleStateProperty {
 
 	@Override
 	public @Nullable Boolean fromBukkit(ItemStack stack) {
-		return stack.getItemFlags().contains(ItemFlag.HIDE_ENCHANTS);
+		return stack.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ENCHANTS);
 	}
 
 	@Override

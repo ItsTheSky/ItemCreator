@@ -24,7 +24,7 @@ public class HideEffectsProperty extends SimpleStateProperty {
 
 	@Override
 	public @Nullable Boolean fromBukkit(ItemStack stack) {
-		return stack.getItemFlags().contains(ItemFlag.HIDE_POTION_EFFECTS);
+		return stack.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_POTION_EFFECTS);
 	}
 
 	@Override

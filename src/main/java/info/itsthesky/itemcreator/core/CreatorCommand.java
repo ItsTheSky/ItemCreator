@@ -8,7 +8,6 @@ import info.itsthesky.itemcreator.core.gui.ItemListGUI;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -96,7 +95,7 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 					return false;
 				}
 				id = args[1];
-				if (ItemCreator.getInstance().getApi().exits(id)) {
+				if (ItemCreator.getInstance().getApi().exists(id)) {
 					sender.sendMessage(Utils.colored("&cA Custom Item with that ID already exist."));
 					return false;
 				}

@@ -39,7 +39,7 @@ public class ItemListGUI extends FastInv {
 			player.sendMessage(LangLoader.get().format("messages.enter_item_id"));
 			new ChatWaiter(player, e -> {
 				final String id = e.getMessage();
-				if (ItemCreator.getInstance().getApi().exits(id))
+				if (ItemCreator.getInstance().getApi().exists(id))
 					player.sendMessage(LangLoader.get().format("messages.item_already_exist"));
 				else {
 					final CustomItem item = ItemCreator.getInstance().getApi().getItemFromId(id, true);

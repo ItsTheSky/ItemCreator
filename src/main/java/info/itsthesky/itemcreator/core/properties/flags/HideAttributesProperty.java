@@ -16,7 +16,7 @@ public class HideAttributesProperty extends SimpleStateProperty {
 
 	@Override
 	public @Nullable Boolean fromBukkit(ItemStack stack) {
-		return stack.getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES);
+		return stack.getItemMeta().getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES);
 	}
 
 	@Override
