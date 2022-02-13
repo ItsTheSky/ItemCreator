@@ -6,6 +6,7 @@ import info.itsthesky.itemcreator.ItemCreator;
 import info.itsthesky.itemcreator.api.ISnowflake;
 import info.itsthesky.itemcreator.core.CustomItem;
 import info.itsthesky.itemcreator.core.GUIRepresentation;
+import info.itsthesky.itemcreator.core.langs.LangLoader;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -47,8 +48,8 @@ public abstract class ItemProperty<T> implements ISnowflake {
 
 	public GUIRepresentation asRepresentation() {
 		return new GUIRepresentation(getMaterial(),
-				"property." + getId() + ".name",
-				"property." + getId() + ".lore");
+				LangLoader.get().format("property." + getId() + ".name"),
+				LangLoader.get().formats("property." + getId() + ".lore"));
 	}
 
 	public abstract T getDefaultValue();

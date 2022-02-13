@@ -32,7 +32,12 @@ public class OwnerProperty extends SimpleMetaProperty<String> {
 	public @Nullable String fromBukkit(ItemStack stack) {
 		if (!stack.getType().name().equals("PLAYER_HEAD"))
 			return null;
-		return ((SkullMeta) stack.getItemMeta()).getOwner();
+		try {
+			final String value = ((SkullMeta) stack.getItemMeta()).getOwningPlayer().getName();
+			return value.isEmpty() ? null : value;
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 	@Override

@@ -67,7 +67,7 @@ public abstract class Ability<E extends Event> implements Listener, ISnowflake {
 	}
 
 	public GUIRepresentation getRepresentation() {
-		return new GUIRepresentation(getMaterial(), "abilities." + getId() + ".name", "abilities." + getId() + ".lore");
+		return new GUIRepresentation(getMaterial(), LangLoader.get().format("abilities." + getId() + ".name"), LangLoader.get().formats("abilities." + getId() + ".lore"));
 	}
 
 	public <T> AbilityParameter<T> getParameterValue(RawAbilityParameter<T> raw, CustomItem item) {

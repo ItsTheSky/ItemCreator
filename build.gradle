@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'info.itsthesky'
-version = '2.3.0'
+version = '2.3.1'
 
 repositories {
     mavenCentral()
@@ -30,10 +30,10 @@ dependencies {
 
 shadowJar {
     archiveName = 'ItemCreator.jar'
-    relocate 'fr.mrmicky.fastinv', 'info.itsthesky.libs.fastinv'
+    /* relocate 'fr.mrmicky.fastinv', 'info.itsthesky.libs.fastinv'
     relocate 'com.cryptomorin.xseries', 'info.itsthesky.libs.xseries'
     relocate 'de.tr7zw.changeme.nbtapi', 'info.itsthesky.libs.nbtapi'
-    relocate 'dev.dbassett.skullcreator', 'info.itsthesky.libs.skullcreator'
+    relocate 'dev.dbassett.skullcreator', 'info.itsthesky.libs.skullcreator' */
 }
 
 def targetJavaVersion = 11
