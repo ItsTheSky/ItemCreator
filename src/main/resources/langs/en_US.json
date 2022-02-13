@@ -1,5 +1,24 @@
 {
-  "lang_version": "2.2.0",
+  "lang_version": "2.3.0",
+  "abilities": {
+    "item_throw": {
+      "lore": [
+        "&8Make the item throwable, using right-click"
+      ],
+      "name": "&9Item Throw"
+    },
+    "parameters": {
+      "ability_forcelore": [
+        "&8Change how strong the ability will be."
+      ],
+      "ability_cooldownname": "&5Cooldown",
+      "ability_forcename": "&5Force",
+      "ability_cooldownlore": [
+        "&8Change how long (in seconds) the player must",
+        "&8wait before re-using this ability."
+      ]
+    }
+  },
   "true": "&aTrue",
   "false": "&cFalse",
   "property": {
@@ -54,6 +73,12 @@
       "&7Click here to change the value.",
       "&7Current value: &6%1"
     ],
+    "abilities": {
+      "lore": [
+        "&8Manage current abilities and their parameters."
+      ],
+      "name": "&6Abilities"
+    },
     "property_require": "&cThis property require: %1",
     "skull_owner": {
       "lore": [
@@ -228,11 +253,15 @@
     "parsing_number": "&eEnter in the chat the desired integer.",
     "wrong_number": "&cWrong number format.",
     "first_page": "&eYou are on the first page.",
+    "ability_added": "&aThis ability has been added!",
     "wrong_potion_effect": "&cThe potion effect format is wrong, it must follow '&4EFFECT DURATION AMPLIFIER&c' format.",
+    "ability_already_added": "&6This ability is already added.",
+    "enter_ability_id": "&eEnter in the chat the ability ID (use &6/ic list abilities&e to get a list of them)",
     "wrong_entity_type": "&cWrong entity type! Use &4/ic list entities&c to get a list of them.",
     "parsing_potion_effects": "&eEnter in the chat the potion effect, followed by the duration and the amplifier ('&6EFFECT DURATION AMPLIFIER&e')",
     "last_page": "&eThere's no more property page to show.",
     "custom_item": "&eEnter in the chat the custom item's ID.",
+    "enter_parameter_value": "&eEnter in the chat the new parameter value",
     "parsing_material": "&eEnter, in the chat, the new material you want this item have.",
     "display_name": "&eEnter in the chat the new custom name. (support color code)",
     "enter_item_id": "&eEnter in the chat the new unique id of your item.",
@@ -240,17 +269,22 @@
     "property_require_format": "  &6→ &e%1",
     "item_already_exist": "&cAn item with that id already exist.",
     "entity_type": "&eEnter in the chat the entity type. Use &6/ic list entities&e to get a list of them.",
+    "ability_on_cooldown": "&eThis ability is on cooldown! You must wait &6%1 seconds&e before using it again.",
     "success": "&aThis property has been changed!",
     "parsing_custom_model_data": "&eEnter in the chat the new Custom Model Data integer.",
     "parsing_attributes": "&eEnter in the chat the attribute format: &6ATTRIBUTE : OPERATION : VALUE&7 : SLOT\n&eYou can check these enumerations using &6/is list <slots|attributes|operations>&e!",
     "wrong_attribute": "&cWrong attribute format!",
+    "parameter_changed": "&aThis parameter has been changed!",
     "wrong_material": "&cUnknown material.",
-    "rarity": "&eEnter in the chat the new rarity of your item."
+    "rarity": "&eEnter in the chat the new rarity of your item.",
+    "wrong_ability_id": "&cWrong ability ID"
   },
   "gui": {
     "title": {
       "editor": "&6Item Editor &7(%1)",
-      "list": "&6Custom Items &7(%1)"
+      "abilities_list": "&6Item Abilities",
+      "list": "&6Custom Items &7(%1)",
+      "parameters": "&6Parameters"
     },
     "items": {
       "general_lore": [
@@ -260,6 +294,13 @@
         "&4Control + Drop&c to DELETE this item."
       ],
       "next": "&eNext Page",
+      "no_abilities": {
+        "lore": [
+          "&cThere's no abilities attached to",
+          "&cthis item. Use the slimeball to add a new one."
+        ],
+        "name": "&4No abilities!"
+      },
       "give_info": [
         "&1",
         "&7Click here to give you the Custom Item;",
@@ -274,6 +315,13 @@
           "&9Showing &b%3 &9values out of &b%4"
         ],
         "name": "&6Page Information:"
+      },
+      "add_ability": {
+        "lore": [
+          "&7Click here to add a new ability",
+          "&7using its ID (/ic list abilities)"
+        ],
+        "name": "&aAdd Ability"
       },
       "back": "&cBack",
       "create": {
@@ -290,6 +338,16 @@
           "&7been already created."
         ],
         "name": "&eAre you lost?"
+      },
+      "no_items": {
+        "lore": [
+          "&cYou can use the slime ball to create",
+          "&ca new custom item (will ask for an unique ID)",
+          "&c",
+          "&cYou can also use &4/ic generate_default&c in",
+          "&corder to generate default IC items."
+        ],
+        "name": "&4No Items!"
       }
     }
   }
