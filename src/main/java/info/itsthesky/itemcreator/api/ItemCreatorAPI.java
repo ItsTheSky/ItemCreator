@@ -2,6 +2,8 @@ package info.itsthesky.itemcreator.api;
 
 import de.leonhard.storage.Config;
 import info.itsthesky.itemcreator.ItemCreator;
+import info.itsthesky.itemcreator.api.abilities.Ability;
+import info.itsthesky.itemcreator.api.abilities.RawAbilityParameter;
 import info.itsthesky.itemcreator.api.properties.base.ItemProperty;
 import info.itsthesky.itemcreator.core.CustomItem;
 import org.bukkit.inventory.ItemStack;
@@ -82,6 +84,10 @@ public interface ItemCreatorAPI {
 	 * @param property
 	 */
 	void registerProperty(ItemProperty property);
+
+	void registerAbility(Ability ability);
+
+	void registerParameter(RawAbilityParameter parameter);
 
 	@NotNull File getItemFile(CustomItem item);
 

@@ -44,6 +44,10 @@ public class EditorGUI extends FastInv {
 			}
 		});
 
+		/*
+		Pages navigation
+		 */
+
 		setItem(49, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
 				.name(LangLoader.get().format("gui.items.page_info.name"))
 				.lore(LangLoader.get().formatsList("gui.items.page_info.lore",
@@ -52,13 +56,6 @@ public class EditorGUI extends FastInv {
 						properties.getPage(getPlayerPage(player)).size(),
 						ItemCreator.getInstance().getRegisteredProperties().size()))
 				.build(), "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0="));
-
-		final ItemProperty enabledProperty = item.getProperties()
-				.stream()
-				.filter(prop -> prop.getId().equals("enabled"))
-				.findAny()
-				.orElse(null);
-		setItem(8, enabledProperty.asMenuItem(), ev -> enabledProperty.onEditorClick(ev, item));
 
 		setItem(45, SkullCreator.itemWithBase64(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
 				.name(LangLoader.get().format("gui.items.previous"))
@@ -81,6 +78,15 @@ public class EditorGUI extends FastInv {
 				new EditorGUI(item, openedFromGUI, player).open(player);
 			}
 		});
+
+		/* End navigation */
+
+		final ItemProperty enabledProperty = item.getProperties()
+				.stream()
+				.filter(prop -> prop.getId().equals("enabled"))
+				.findAny()
+				.orElse(null);
+		setItem(8, enabledProperty.asMenuItem(), ev -> enabledProperty.onEditorClick(ev, item));
 
 		int i = -1;
 		final List<Integer> slots =
@@ -113,14 +119,15 @@ public class EditorGUI extends FastInv {
 								LangLoader.get().format("property.clear_info")));
 				} else {
 					final MultipleItemProperty mitem = (MultipleItemProperty) property;
-					for (String line : LangLoader.get().formatsList("property.general_multiple_lore")) {
-						line = line.replace("%1", mitem.getActionLore());
-						if (line.contains("%2"))
-							for (Object s : mitem.formatGUI(item.getPropertyValue(mitem)))
-								lores.add(Utils.colored(s.toString()));
-						else
-							lores.add(Utils.colored(line));
-					}
+					if (property.isSavable())
+						for (String line : LangLoader.get().formatsList("property.general_multiple_lore")) {
+							line = line.replace("%1", mitem.getActionLore());
+							if (line.contains("%2"))
+								for (Object s : mitem.formatGUI(item.getPropertyValue(mitem)))
+									lores.add(Utils.colored(s.toString()));
+							else
+								lores.add(Utils.colored(line));
+						}
 				}
 				if (value instanceof Boolean && ((Boolean) value))
 					builder.enchant(Enchantment.LOOT_BONUS_BLOCKS);

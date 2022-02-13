@@ -21,6 +21,10 @@ public final class Utils {
 	}
 
 	public static String beauty(Enum<?> enumeration) {
-		return WordUtils.capitalize(enumeration.name().replace("_", " ").toLowerCase());
+		return beauty(enumeration.name());
+	}
+
+	public static String beauty(String input) {
+		return WordUtils.capitalize(input.replace("_", " ").toLowerCase());
 	}
 }

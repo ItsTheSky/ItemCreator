@@ -1,10 +1,12 @@
 package info.itsthesky.itemcreator.core;
 
 import info.itsthesky.itemcreator.ItemCreator;
+import info.itsthesky.itemcreator.api.abilities.Ability;
 import info.itsthesky.itemcreator.api.properties.base.ItemProperty;
 import info.itsthesky.itemcreator.api.properties.base.MultipleItemProperty;
 import info.itsthesky.itemcreator.core.gui.EditorGUI;
 import info.itsthesky.itemcreator.core.gui.ItemListGUI;
+import info.itsthesky.itemcreator.core.langs.LangLoader;
 import info.itsthesky.itemcreator.utils.Utils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
@@ -26,10 +28,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CreatorCommand implements CommandExecutor, TabCompleter {
@@ -52,6 +51,16 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 					sender.sendMessage(Utils.colored("&cYou must provide the item's ID!"));
 					return false;
 				}
+
+				int amount;
+				try {
+					amount = Integer.parseInt(args[3]);
+				} catch (Exception ex) {
+					amount = 1;
+				}
+				if (amount < 1)
+					amount = 1;
+
 				Player player = args.length == 2 ? ((Player) sender).getPlayer() : Bukkit
 						.getOnlinePlayers()
 						.stream()
@@ -67,7 +76,9 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 					return false;
 				}
 				sender.sendMessage(Utils.colored("&aGive complete!"));
-				player.getInventory().addItem(item.asItem());
+				final ItemStack itemStack = item.asItem();
+				itemStack.setAmount(amount);
+				player.getInventory().addItem(itemStack);
 				return true;
 			case "menu":
 				if (!(sender instanceof Player)) {
@@ -169,6 +180,14 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 									Utils.beauty(attribute)
 									+ " &7(ID: "+attribute.name()+")"));
 						return true;
+					case "abilities":
+						final Collection<Ability> abilities = ItemCreator.getInstance().getRegisteredAbilities().values();
+						sender.sendMessage(Utils.colored("&6List of Abilities &e("+ abilities.size() +")&6:"));
+						for (Ability ability : abilities)
+							sender.sendMessage(Utils.colored("  &6→ &e" +
+									LangLoader.get().format("abilities." + ability.getId() + ".name")
+									+ " &7(ID: "+ability.getId()+")"));
+						return true;
 					case "operations":
 						sender.sendMessage(Utils.colored("&6List of Operations &e("+ AttributeModifier.Operation.values().length +")&6:"));
 						for (AttributeModifier.Operation attribute : AttributeModifier.Operation.values())
@@ -202,9 +221,9 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 		sender.sendMessage(
 				Utils.colored("&1"),
 				Utils.colored("&6/ic help &7- &eShow this help page"),
-				Utils.colored("&6/ic get <item id> &7- &eGet the specified custom item"),
+				Utils.colored("&6/ic get <item id> [player] [amount] &7- &eGet the specified custom item"),
 				Utils.colored("&6/ic menu &7- &eOpen the main ItemCreator menu"),
-				Utils.colored("&6/ic list (enchantments|actions|potion_effects|entities|operations|attributes|slots) &7- &eList possible values of enumeration"),
+				Utils.colored("&6/ic list (enchantments|abilities|actions|potion_effects|entities|operations|attributes|slots) &7- &eList possible values of enumeration"),
 				Utils.colored("&6/ic convert <item id> &7- &cBETA &eConvert the item you're holding into an ItemCreator item."),
 				Utils.colored("&6/ic generate_default &7- &eGenerate the default items ItemCreator provide to see everything it can do."),
 				Utils.colored("&1")
@@ -229,7 +248,7 @@ public class CreatorCommand implements CommandExecutor, TabCompleter {
 								.collect(Collectors.toList()));
 						break;
 					case "list":
-						completions.addAll(Arrays.asList("enchantments", "actions", "potion_effects", "entities", "slots", "attributes", "operations"));
+						completions.addAll(Arrays.asList("enchantments", "actions", "potion_effects", "entities", "slots", "abilities", "attributes", "operations"));
 						break;
 				}
 			} else if (args.length == 3) {

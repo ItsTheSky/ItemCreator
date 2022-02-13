@@ -96,13 +96,17 @@ public class CommandsProperty extends MultipleNBTProperty<CommandsProperty.Comma
 		final NBTItem nbtItem = new NBTItem(e.getItem());
 		if (!nbtItem.hasKey(getId()))
 			return;
-		final List<CommandData> commands = Stream
-				.of(nbtItem.getString(getId()).split("\\|"))
-				.map(CommandData::serialize)
-				.collect(Collectors.toList());
-		for (CommandData cmd : commands)
-			if (cmd.getAction().equals(e.getAction()))
-				player.performCommand(cmd.getCommand());
+		try {
+			final List<CommandData> commands = Stream
+					.of(nbtItem.getString(getId()).split("\\|"))
+					.map(CommandData::serialize)
+					.collect(Collectors.toList());
+			for (CommandData cmd : commands)
+				if (cmd.getAction().equals(e.getAction()))
+					player.performCommand(cmd.getCommand());
+		} catch (Exception ignored) {
+
+		}
 	}
 
 	@Override

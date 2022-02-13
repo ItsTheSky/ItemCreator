@@ -53,6 +53,10 @@ public abstract class ItemProperty<T> implements ISnowflake {
 
 	public abstract T getDefaultValue();
 
+	public boolean isSavable() {
+		return true;
+	}
+
 	public T getValue(@NotNull Config itemFile) {
 		return convert(itemFile.getString(getId()), null);
 	}
